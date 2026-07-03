@@ -1,0 +1,16 @@
+# Secrets - NEVER commit these (they contain the live MailerLite API key)
+config.json
+MailerLite api_token.txt
+
+# Personal data - subscriber lists must never leave the office machine
+*.csv
+
+# Python build artefacts
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+
+# Preview temp files
+*_preview.html

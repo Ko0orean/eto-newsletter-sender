@@ -1,0 +1,10 @@
+{
+  "api_key": "PASTE-YOUR-MAILERLITE-API-KEY-HERE",
+  "from_name": "Hong Kong Economic and Trade Office, Tokyo",
+  "from_email": "hknewsletter_korea@hketotyo.gov.hk",
+  "subject": "",
+  "test_emails": "",
+  "group_name": "ETO Korea Newsletter Subscribers",
+  "social_links": {},
+  "skip_ssl_verify": false
+}
