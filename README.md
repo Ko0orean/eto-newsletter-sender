@@ -38,6 +38,23 @@ office contact list through MailerLite.
   on your own website) as a download button inside the email.
 - MailerLite adds the mandatory unsubscribe link automatically.
 
+## Setting up on a new computer (e.g. the manager's laptop)
+
+1. Install [Python 3.11+](https://www.python.org/downloads/) — tick
+   **"Add Python to PATH"** — and [Git](https://git-scm.com/download/win)
+   (default options).
+2. Clone the app (no GitHub account needed):
+   ```
+   git clone https://github.com/Ko0orean/eto-newsletter-sender.git
+   ```
+3. Get `config.json` (contains the API key) and the subscriber CSV from the
+   developer **by USB or another safe channel — never email or chat**, and put
+   `config.json` in the app folder. (Or start the app and enter the key in
+   Settings.)
+4. From then on, double-click **Update ETO Newsletter.bat** — it pulls the
+   latest version and starts the app. `config.json` and CSV files are never
+   touched by updates.
+
 ## Running the app (double-click)
 
 Two double-click options are provided:
