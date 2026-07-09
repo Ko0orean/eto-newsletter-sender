@@ -11,9 +11,8 @@
   .subtitle { color: #666; margin: 0 0 18px; font-size: 10.5pt; }
   h2 { color: #1f3864; font-size: 13.5pt; border-bottom: 2px solid #1f3864;
        padding-bottom: 3px; margin: 22px 0 8px; }
-  h3 { color: #1f3864; font-size: 11.5pt; margin: 14px 0 4px; }
   ol, ul { margin: 6px 0; padding-left: 22px; }
-  li { margin: 3px 0; }
+  li { margin: 4px 0; }
   b.ui { color: #1f3864; }
   .box { border: 1px solid #c9d3e4; background: #f2f5fa; border-radius: 6px;
          padding: 10px 14px; margin: 8px 0; }
@@ -23,8 +22,6 @@
   th, td { border: 1px solid #ccc; padding: 6px 9px; text-align: left;
            vertical-align: top; }
   th { background: #eef1f6; color: #1f3864; }
-  code { background: #eef1f6; padding: 1px 5px; border-radius: 3px;
-         font-family: Consolas, monospace; font-size: 9.5pt; }
   .step { font-weight: 700; color: #1f3864; }
   .pagebreak { page-break-before: always; }
   .footer-note { color: #888; font-size: 9pt; margin-top: 24px;
@@ -34,126 +31,136 @@
 <body>
 
 <h1>ETO Newsletter Sender 사용설명서</h1>
-<p class="subtitle">주홍콩경제무역대표부(도쿄) — 월간 한국어 뉴스레터 발송 프로그램 · 2026-07 기준</p>
+<p class="subtitle">월간 한국어 뉴스레터 발송 프로그램 · 2026년 7월 기준</p>
 
 <h2>1. 이 프로그램이 하는 일</h2>
-<p>구독자 명단(CSV)을 불러와 MailerLite를 통해 월간 뉴스레터 이메일을 보내는
-Windows 프로그램입니다. 발송 전에 반드시 <b>① 명단 대조 ② 테스트 메일 ③ 확인
-체크</b>를 거치도록 되어 있고, 마지막에도 5초의 취소 기회가 있어 실수로 전체
-발송되는 사고를 막아 줍니다.</p>
+<p>구독자 명단(CSV 파일)을 불러와서 월간 뉴스레터 이메일을 보내는 프로그램입니다.
+실수로 잘못 발송되는 일을 막기 위해, 발송 전에 반드시 <b>① 명단 대조 ②
+테스트 메일 확인 ③ 확인 체크</b>를 거치도록 되어 있고, 마지막 순간에도
+<b>5초 동안 취소</b>할 수 있습니다.</p>
+<div class="box">프로그램 설치와 초기 설정은 담당자가 해 드립니다. 이 설명서는
+설치가 끝난 뒤 실제로 사용하는 방법만 다룹니다.</div>
 
-<h2>2. 처음 한 번만 하는 설치</h2>
-<ol>
-  <li><b>Python 설치</b> — <code>python.org/downloads</code>에서 최신 버전 설치.
-      설치 첫 화면에서 <b class="ui">"Add Python to PATH"</b> 체크박스를 꼭 켜세요.</li>
-  <li><b>Git 설치</b> — <code>git-scm.com/download/win</code>에서 설치
-      (모든 옵션 기본값 그대로 Next).</li>
-  <li><b>프로그램 받기</b> — 원하는 폴더에서 주소창에 <code>cmd</code>를 입력해
-      명령창을 열고:<br>
-      <code>git clone https://github.com/Ko0orean/eto-newsletter-sender.git</code></li>
-  <li><b>설정 파일 받기</b> — 담당자에게 <code>config.json</code>(API 키 포함)과
-      구독자 CSV 파일을 <b>USB 등 안전한 방법으로</b> 받아, <code>config.json</code>을
-      프로그램 폴더(README.md가 있는 곳)에 넣으세요.</li>
-</ol>
-<div class="box warn"><b>보안 주의</b> — <code>config.json</code>과 구독자 CSV는
-이메일·메신저로 보내지 마세요. API 키가 유출되면 구독자 전체 명단이 노출되고
-누구나 발송할 수 있게 됩니다.</div>
+<h2>2. 프로그램 시작하기</h2>
+<p>바탕화면(또는 프로그램 폴더)의 <b class="ui">Update ETO Newsletter</b>
+아이콘을 더블클릭하세요. 최신 버전을 자동으로 내려받은 뒤 프로그램이 열립니다.
+인터넷이 안 될 때는 <b class="ui">Run ETO Newsletter</b>를 대신 실행하면
+업데이트 없이 바로 열립니다.</p>
 
-<h2>3. 매달 발송 절차</h2>
+<h2>3. 매달 발송하는 순서</h2>
 <ol>
-  <li><span class="step">시작</span> — 폴더 안의
-      <b class="ui">Update ETO Newsletter.bat</b>를 더블클릭합니다.
-      최신 버전을 자동으로 받고 프로그램이 열립니다.</li>
-  <li><span class="step">명단 업로드</span> — <b class="ui">Upload list…</b>
-      버튼으로 이번 달 구독자 CSV를 엽니다. (한국어 Excel로 저장한 CSV도 그대로
-      열립니다.)</li>
-  <li><span class="step">명단 대조</span> — <b class="ui">Compare with MailerLite</b>
-      버튼을 누르면 지난달 발송 명단과 비교해 <b>신규 구독 / 탈퇴 / 수신거부</b>를
-      보여줍니다. (활용법은 4장 참고)</li>
-  <li><span class="step">뉴스레터 선택</span> — <b class="ui">Browse…</b>로
-      Word(.docx) 파일을 선택하고, 웹사이트에 올린 PDF 주소를
-      <b class="ui">PDF link</b> 칸에 붙여넣습니다.
-      <b class="ui">Preview</b> 버튼을 누르면 실제 발송될 모습이 브라우저로 열립니다.</li>
-  <li><span class="step">제목 확인</span> — <b class="ui">Subject</b> 칸의 제목을
-      이번 달에 맞게 고칩니다 (지난번 제목이 기억되어 있습니다).</li>
-  <li><span class="step">테스트 발송</span> — <b class="ui">Test email(s)</b> 칸에
-      본인 주소(여러 명이면 쉼표로 구분)를 넣고 <b class="ui">Send test</b>.
-      받은 메일이 Outlook·휴대폰에서 제대로 보이는지 확인하세요.</li>
-  <li><span class="step">확인 체크</span> — 대조와 테스트가 모두 끝나면(✓ 표시)
-      <b class="ui">"I reviewed the comparison and the test email"</b> 체크박스가
-      켜집니다. 체크해야 발송 버튼이 풀립니다.</li>
-  <li><span class="step">발송</span> — <b class="ui">Send to all subscribers</b>
-      1차 클릭 → 표에서 제외할 사람이 있으면 체크 해제 →
-      <b class="ui">Confirm — send now</b> 2차 클릭 → 확인창에서 Yes →
-      <b>5초 카운트다운</b> 후 발송됩니다. 카운트다운 중 빨간 버튼을 누르면
-      취소됩니다.</li>
+  <li><span class="step">① 명단 열기</span> — 왼쪽 위
+      <b class="ui">Upload list…</b> 버튼을 눌러 이번 달 구독자 CSV 파일을
+      선택합니다. 표에 명단이 나타나고 위쪽에 총 인원이 표시됩니다.</li>
+  <li><span class="step">② 명단 대조</span> — <b class="ui">Compare with
+      MailerLite</b> 버튼을 누릅니다. 지난달 발송 명단과 비교해서
+      <b>새로 들어온 사람 / 빠진 사람 / 수신거부한 사람</b>을 보여줍니다.
+      내용을 확인하고 닫으면 체크리스트에 ✓가 켜집니다. (자세한 활용은 4장)</li>
+  <li><span class="step">③ 뉴스레터 파일 선택</span> — 오른쪽
+      <b class="ui">Browse…</b> 버튼으로 이번 호 Word 파일(.docx)을 선택하고,
+      홈페이지에 올려 둔 PDF 주소를 <b class="ui">PDF link</b> 칸에
+      붙여넣습니다.</li>
+  <li><span class="step">④ 미리보기</span> — <b class="ui">Preview</b> 버튼을
+      누르면 실제 발송될 이메일 모습이 인터넷 브라우저로 열립니다. 제목 띠,
+      본문, PDF 버튼, 맨 아래 배너까지 눈으로 확인하세요.</li>
+  <li><span class="step">⑤ 제목 확인</span> — <b class="ui">Subject</b> 칸의
+      제목을 이번 달에 맞게 고칩니다. (지난번 제목이 남아 있으니 월만 바꾸면
+      됩니다.)</li>
+  <li><span class="step">⑥ 테스트 메일</span> — <b class="ui">Test email(s)</b>
+      칸에 본인 이메일 주소를 넣고 <b class="ui">Send test</b>를 누릅니다.
+      여러 명이 확인하려면 주소를 쉼표(,)로 이어 적으세요. 받은 메일을 컴퓨터와
+      휴대폰에서 열어 이상이 없는지 확인합니다.</li>
+  <li><span class="step">⑦ 확인 체크</span> — 대조(②)와 테스트(⑥)가 모두
+      끝나면 <b class="ui">"I reviewed the comparison and the test email"</b>
+      체크박스가 켜집니다. 내용에 문제가 없으면 체크하세요. 그래야 발송 버튼이
+      눌리게 됩니다.</li>
+  <li><span class="step">⑧ 발송</span> —
+      <ul>
+        <li><b class="ui">Send to all subscribers</b>를 누르면 표의 전원이
+            선택됩니다. 이번에 빼고 싶은 사람이 있으면 체크를 해제하세요.</li>
+        <li>같은 버튼(<b class="ui">Confirm — send now</b>)을 한 번 더 누르고
+            확인 창에서 <b class="ui">Yes</b>를 누릅니다.</li>
+        <li>버튼이 빨갛게 바뀌며 <b>5초 카운트다운</b>이 시작됩니다. 마음이
+            바뀌면 그 빨간 버튼을 누르면 취소됩니다. 5초가 지나면 발송됩니다.</li>
+      </ul></li>
 </ol>
-<div class="box">발송이 끝나면 MailerLite의 구독자 그룹이 이번 발송 명단으로
-자동 정리되어, 다음 달 대조의 기준이 됩니다.</div>
+<div class="box">발송이 끝나면 "The newsletter has been sent." 안내가 뜨고,
+MailerLite의 구독자 그룹이 이번 발송 명단으로 자동 정리됩니다. 이것으로 이번 달
+작업은 끝입니다.</div>
 
 <div class="pagebreak"></div>
 
-<h2>4. 명단 대조 화면 활용</h2>
+<h2>4. 명단 대조 창 활용하기</h2>
 <table>
-  <tr><th>항목</th><th>의미</th><th>할 수 있는 것</th></tr>
-  <tr><td><b>New sign-ups</b></td><td>CSV에는 있지만 MailerLite 그룹에 없는
-      신규 구독자</td><td>체크 후 <b class="ui">Add checked to “ETO Korea
-      Newsletter Subscribers”</b> — 그룹에 미리 등록</td></tr>
-  <tr><td><b>Departed</b></td><td>그룹에는 있지만 이번 CSV에서 빠진 사람</td>
-      <td>체크 후 <b class="ui">Add checked to the current list</b>(명단에 복원,
-      새 CSV로 저장) 또는 <b class="ui">Delete checked from MailerLite…</b>
-      (계정에서 삭제)</td></tr>
-  <tr><td><b>Unsubscribed</b></td><td>메일의 수신거부 링크를 직접 누른 사람</td>
-      <td>정보 표시용. CSV에 남아 있어도 MailerLite가 자동으로 발송에서
-      제외합니다. <b>임의로 되살리지 마세요.</b></td></tr>
+  <tr><th>항목</th><th>뜻</th><th>할 수 있는 일</th></tr>
+  <tr><td><b>New sign-ups</b><br>(신규)</td><td>이번 CSV에 새로 들어온 사람</td>
+      <td>체크하고 <b class="ui">Add checked to “ETO Korea Newsletter
+      Subscribers”</b>를 누르면 MailerLite 그룹에 미리 등록됩니다.</td></tr>
+  <tr><td><b>Departed</b><br>(빠짐)</td><td>지난달에는 있었는데 이번 CSV에서
+      빠진 사람</td>
+      <td>실수로 빠진 거라면: 체크 후 <b class="ui">Add checked to the current
+      list</b> — 명단에 다시 들어오고, 수정된 CSV를 저장하라는 창이 뜹니다.<br>
+      정말 정리할 거라면: 체크 후 <b class="ui">Delete checked from
+      MailerLite…</b></td></tr>
+  <tr><td><b>Unsubscribed</b><br>(수신거부)</td><td>이메일의 수신거부 링크를
+      직접 누른 사람</td>
+      <td>확인만 하면 됩니다. CSV에 남아 있어도 이 사람들에게는 자동으로
+      발송되지 않습니다. <b>다시 받게 하려고 임의로 조작하지 마세요</b>
+      (본인 동의가 필요합니다).</td></tr>
 </table>
+<p>한 번에 한 가지 작업을 하고 창이 닫힙니다. 다른 작업도 하려면
+<b class="ui">Compare with MailerLite</b>를 다시 누르면 됩니다.</p>
 
-<h2>5. 뉴스레터 Word 파일 작성 요령</h2>
+<h2>5. 뉴스레터 Word 파일 만들 때 요령</h2>
 <ul>
-  <li>제목은 글자 크기를 키우는 대신 Word의 <b>스타일(제목 1, 제목 2)</b>을
-      사용하세요. 그래야 이메일에서도 제목으로 표시됩니다.</li>
-  <li>굵게, 기울임, 글머리 기호 목록, 표는 그대로 이메일에 반영됩니다.</li>
-  <li><b>문서에 붙여넣은 이미지는 Gmail·Outlook에서 표시되지 않는 경우가
-      많습니다.</b> 이미지가 필요하면 웹사이트에 올린 뒤 링크로 넣고, 반드시
-      테스트 메일에서 확인하세요. (이미지가 감지되면 프로그램이 경고를 띄웁니다.)</li>
-  <li>전체 디자인(상단 남색 제목 띠, PDF 다운로드 버튼, 하단 SNS·수신거부 배너)은
-      프로그램이 자동으로 입힙니다.</li>
+  <li>제목은 글자를 크게 키우지 말고 Word 위쪽의 <b>스타일 갤러리에서
+      "제목 1", "제목 2"</b>를 골라 지정하세요. 그래야 이메일에서도 제목으로
+      예쁘게 표시됩니다.</li>
+  <li>굵게, 기울임, 글머리 기호(•), 표는 이메일에 그대로 반영됩니다.</li>
+  <li><b>문서에 붙여넣은 사진·그림은 받는 사람에게 안 보이는 경우가
+      많습니다.</b> (Gmail, Outlook이 차단) 그림이 있으면 프로그램이 경고를
+      띄우니, 그때는 담당자와 상의하세요.</li>
+  <li>상단 남색 제목 띠, PDF 다운로드 버튼, 맨 아래 SNS·수신거부 배너는
+      프로그램이 자동으로 붙입니다. 본문 내용만 쓰시면 됩니다.</li>
 </ul>
 
-<h2>6. 자주 나오는 메시지 / 문제 해결</h2>
+<h2>6. 이런 메시지가 나오면</h2>
 <table>
   <tr><th>상황</th><th>대처</th></tr>
-  <tr><td>발송 버튼이 눌리지 않음</td><td>정상입니다 — 명단 대조와 테스트 발송을
-      먼저 마치고 확인 체크박스를 켜야 풀립니다. 뉴스레터 파일이나 제목을 고치면
-      테스트 ✓가 다시 꺼지므로 테스트를 새로 보내야 합니다.</td></tr>
-  <tr><td>"The PDF link does not work"</td><td>PDF 주소가 잘못됐거나 아직
-      업로드 전입니다. 주소를 고치면 됩니다. 아무것도 발송되지 않았으니 안심하세요.</td></tr>
-  <tr><td>"Possible duplicate send" 경고</td><td>같은 제목으로 최근에 이미 발송된
-      기록이 있다는 뜻입니다. 이번 달 두 번째 발송이 아닌지 확인하고, 확실할 때만
-      Yes를 누르세요.</td></tr>
-  <tr><td>"SAFETY STOP" 에러</td><td>수신자 설정이 확인되지 않아 발송을 중단한
-      것입니다(전체 오발송 방지 장치). 담당자에게 알려주세요.</td></tr>
-  <tr><td>업데이트(bat) 실패</td><td>인터넷 연결을 확인하고 다시 실행하세요.
-      "local changes" 문구가 보이면 담당자에게 연락하세요.</td></tr>
-  <tr><td>인증 실패 (401)</td><td>Settings의 API 키가 비었거나 틀렸습니다.
-      <b class="ui">Settings → Test connection</b>으로 확인하세요.</td></tr>
-  <tr><td>사내망에서 연결 오류(SSL)</td><td>임시로 <b class="ui">Settings →
-      Skip SSL verification</b>을 켤 수 있으나, IT에 프록시 인증서를 요청하는 것이
-      올바른 해결입니다.</td></tr>
+  <tr><td>발송 버튼이 회색이고 안 눌림</td><td>고장이 아닙니다. 명단 대조(②)와
+      테스트 메일(⑥)을 마치고 확인 체크박스(⑦)를 켜면 눌리게 됩니다.</td></tr>
+  <tr><td>테스트 ✓가 갑자기 꺼짐</td><td>테스트 후에 Word 파일이나 제목을
+      고쳤기 때문입니다. 바뀐 내용으로 테스트 메일을 다시 보내면 됩니다.</td></tr>
+  <tr><td>"The PDF link does not work"</td><td>PDF 주소가 틀렸거나 아직 홈페이지에
+      올라가지 않은 것입니다. 주소를 확인해서 고치세요. 아무것도 발송되지
+      않았으니 안심하세요.</td></tr>
+  <tr><td>"Possible duplicate send" (노란 경고)</td><td>같은 제목으로 최근에 이미
+      발송한 기록이 있다는 뜻입니다. 이번 달 것을 벌써 보냈는지 확인하고,
+      두 번 보내는 게 아니라고 확실할 때만 Yes를 누르세요.</td></tr>
+  <tr><td>"SAFETY STOP" (빨간 에러)</td><td>받는 사람 설정이 확인되지 않아
+      프로그램이 발송을 스스로 중단한 것입니다(오발송 방지 장치). 발송되지
+      않았습니다. 담당자에게 알려주세요.</td></tr>
+  <tr><td>업데이트가 실패함</td><td>인터넷 연결을 확인하고
+      <b class="ui">Update ETO Newsletter</b>를 다시 실행하세요. 그래도 안 되면
+      담당자에게 연락하세요.</td></tr>
+  <tr><td>"Authentication failed" / 연결 오류</td><td>담당자에게 연락하세요.
+      (설정 문제로, 매니저님이 고칠 일이 아닙니다.)</td></tr>
 </table>
 
-<h2>7. 하지 말아야 할 것</h2>
+<h2>7. 주의사항</h2>
 <ul>
-  <li>프로그램 폴더 안의 파일을 직접 수정·삭제하지 마세요 (CSV, config.json 제외).
-      코드 수정은 담당자가 GitHub로 배포합니다.</li>
-  <li><code>config.json</code>·구독자 CSV를 외부로 보내거나 공유 폴더에 두지 마세요.</li>
-  <li>MailerLite 웹사이트에서 그룹을 직접 지우지 마세요 — 다음 달 명단 대조 기준이
-      사라집니다.</li>
+  <li>프로그램 폴더 안의 파일을 옮기거나 지우지 마세요. (구독자 CSV 파일을
+      넣고 빼는 것은 괜찮습니다.)</li>
+  <li>구독자 CSV와 <b>config.json</b>(설정 파일)은 개인정보·열쇠에 해당합니다.
+      이메일이나 메신저로 보내지 마세요.</li>
+  <li>MailerLite 홈페이지에 직접 들어가서 그룹을 지우지 마세요 — 다음 달 명단
+      대조가 안 됩니다.</li>
+  <li>궁금하거나 이상하면 발송 전에 담당자에게 먼저 물어보세요. 발송은 되돌릴
+      수 없습니다.</li>
 </ul>
 
-<p class="footer-note">프로그램 저장소: github.com/Ko0orean/eto-newsletter-sender ·
-문제 발생 시 담당자에게 연락 · 이 문서는 docs/user-manual-ko.html에서 수정 후
-PDF로 다시 출력할 수 있습니다.</p>
+<p class="footer-note">문제 발생·문의: 담당자에게 연락 · 이 문서는
+docs/user-manual-ko.html을 수정해 다시 출력할 수 있습니다.</p>
 
 </body>
 </html>
