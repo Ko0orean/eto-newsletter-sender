@@ -131,9 +131,10 @@ certificate from IT; ask for it alongside the DNS request.
    **Confirm — send now**. A 5-second countdown follows; click the red button
    to cancel, or wait and the newsletter goes out.
 
-After a successful send the app rebuilds the saved MailerLite group
-(`Korea contacts`) to match exactly who received this issue, so next month's
-comparison is always against the previous send.
+After a successful send the app syncs the MailerLite group (default:
+`ETO Korea Newsletter Subscribers`, configurable in Settings) to match exactly
+who received this issue, so next month's comparison is always against the
+previous send. The group itself is never deleted.
 
 ## Building a standalone .exe
 
