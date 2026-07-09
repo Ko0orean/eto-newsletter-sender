@@ -3,6 +3,8 @@
 A Windows desktop application for sending the monthly e-newsletter to the
 office contact list through MailerLite.
 
+> **한국어 사용설명서**: [ETO Newsletter 사용설명서.pdf](<ETO Newsletter 사용설명서.pdf>)
+
 ## What it does
 
 - Loads a subscriber list from CSV (`name, email, company, joined, suspicious`).
