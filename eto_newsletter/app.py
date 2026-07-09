@@ -59,8 +59,9 @@ from PySide6.QtWidgets import (
 
 from . import settings
 from .content import (
+    build_email_html,
+    load_newsletter_body,
     load_subscribers,
-    markdown_to_email_html,
     parse_email_list,
     save_subscribers,
 )
@@ -616,10 +617,10 @@ class MainWindow(QMainWindow):
         heading.setStyleSheet("font-weight:600; font-size:14px;")
         v.addWidget(heading)
 
-        v.addWidget(QLabel("Newsletter (Markdown)"))
+        v.addWidget(QLabel("Newsletter (.docx or .md)"))
         md_row = QHBoxLayout()
         self.md_path_edit = QLineEdit()
-        self.md_path_edit.setPlaceholderText("Choose a .md file…")
+        self.md_path_edit.setPlaceholderText("Choose a .docx or .md file…")
         self.md_path_edit.setReadOnly(True)
         md_btn = QPushButton("Browse…")
         md_btn.clicked.connect(self._choose_markdown)
@@ -1057,13 +1058,18 @@ class MainWindow(QMainWindow):
             return None
         if not md_path:
             QMessageBox.warning(self, "Newsletter missing",
-                                "Choose a Markdown file for the newsletter body.")
+                                "Choose a .md or .docx file for the newsletter body.")
             return None
         try:
-            markdown_text = open(md_path, encoding="utf-8").read()
-        except OSError as exc:
+            body_html, warnings = load_newsletter_body(md_path)
+        except (ValueError, OSError) as exc:
             QMessageBox.critical(self, "Could not read newsletter", str(exc))
             return None
+        if warnings:
+            QMessageBox.warning(
+                self, "Newsletter loaded with warnings",
+                "\n\n".join(warnings[:6]) + ("\n…" if len(warnings) > 6 else ""),
+            )
 
         # Remember the subject for next time.
         settings.save_subject(subject)
@@ -1072,7 +1078,7 @@ class MainWindow(QMainWindow):
             subject=subject,
             from_name=sender.get("from_name", "").strip() or "Newsletter",
             from_email=from_email,
-            markdown=markdown_text,
+            body_html=body_html,
             pdf_url=self.pdf_edit.text().strip() or None,
             social_links=settings.load_social_links(),
         )
@@ -1372,15 +1378,20 @@ class MainWindow(QMainWindow):
         md_path = self.md_path_edit.property("path")
         if not md_path:
             QMessageBox.information(self, "No newsletter",
-                                    "Choose a Markdown file first.")
+                                    "Choose a .md or .docx file first.")
             return
         try:
-            markdown_text = open(md_path, encoding="utf-8").read()
-        except OSError as exc:
+            body_html, warnings = load_newsletter_body(md_path)
+        except (ValueError, OSError) as exc:
             QMessageBox.critical(self, "Could not read newsletter", str(exc))
             return
-        html = markdown_to_email_html(
-            markdown_text,
+        if warnings:
+            QMessageBox.warning(
+                self, "Newsletter loaded with warnings",
+                "\n\n".join(warnings[:6]) + ("\n…" if len(warnings) > 6 else ""),
+            )
+        html = build_email_html(
+            body_html,
             title=self.subject_edit.text().strip() or "Newsletter preview",
             pdf_url=self.pdf_edit.text().strip() or None,
             social_links=settings.load_social_links(),
@@ -1399,7 +1410,8 @@ class MainWindow(QMainWindow):
 
     def _choose_markdown(self) -> None:
         path, _ = QFileDialog.getOpenFileName(
-            self, "Choose newsletter", "", "Markdown (*.md *.markdown);;All files (*)"
+            self, "Choose newsletter", "",
+            "Newsletter files (*.docx *.md *.markdown);;All files (*)"
         )
         if path:
             self.md_path_edit.setText(path)

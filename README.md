@@ -34,8 +34,11 @@ office contact list through MailerLite.
 - The comparison dialog can optionally delete departed contacts from the
   MailerLite account (unsubscribed ones are always kept, preserving opt-outs);
   old [TEST] campaigns are cleaned up automatically.
-- The newsletter body is written in Markdown; the official PDF is linked (hosted
-  on your own website) as a download button inside the email.
+- The newsletter body is a **Word document (.docx)** or a Markdown file —
+  headings, bold text, lists, and tables carry over into the email. The
+  official PDF is linked (hosted on your own website) as a download button
+  inside the email. Note: images embedded inside a .docx are hidden by many
+  email apps — host images on the website and link them instead.
 - MailerLite adds the mandatory unsubscribe link automatically.
 
 ## Setting up on a new computer (e.g. the manager's laptop)
@@ -115,7 +118,8 @@ certificate from IT; ask for it alongside the DNS request.
 1. Start the app and click **Upload list…** to load the latest CSV.
 2. Click **Compare with MailerLite** to see new sign-ups, departures, and
    unsubscribes against last month's send.
-3. Choose the newsletter Markdown file and paste the PDF link.
+3. Choose the newsletter file (.docx or .md) and paste the PDF link. Use
+   **Preview** to check the rendered email in your browser.
 4. Check/adjust the subject (it is remembered from last time).
 5. Type one or more test addresses (comma-separated) and click **Send test**;
    check it in Outlook/Gmail/mobile.
@@ -148,7 +152,7 @@ eto_newsletter/
   app.py                 the GUI (PySide6) and two-step send flow
   service.py             orchestration: sync, test send, live send
   mailerlite_client.py   the only file that talks to MailerLite
-  content.py             CSV loading and Markdown -> email HTML
+  content.py             CSV loading and .docx/.md -> email HTML
   settings.py            config.json read/write (project folder)
 Run ETO Newsletter.bat   double-click launcher (installs deps first run)
 Run ETO Newsletter.pyw   double-click launcher (no console)

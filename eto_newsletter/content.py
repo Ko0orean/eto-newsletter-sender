@@ -152,27 +152,69 @@ _EMAIL_CSS = """
 """
 
 
-def markdown_to_email_html(
-    markdown_text: str,
+def load_newsletter_body(path: str | Path) -> tuple[str, list[str]]:
+    """Read a newsletter file (.md/.markdown or .docx) into body HTML.
+
+    Returns (body_html, warnings). Word documents are converted with mammoth,
+    which maps Word styles to clean semantic HTML (headings, bold, lists,
+    tables). Embedded Word images become data URIs - fine for the preview,
+    but many email apps refuse them, so a warning is returned when found.
+    """
+    path = Path(path)
+    ext = path.suffix.lower()
+
+    if ext in (".md", ".markdown"):
+        text = path.read_text(encoding="utf-8")
+        return (
+            md_lib.markdown(
+                text, extensions=["extra", "sane_lists", "nl2br", "tables"]
+            ),
+            [],
+        )
+
+    if ext == ".docx":
+        try:
+            import mammoth
+        except ImportError:
+            raise ValueError(
+                "Reading Word files needs the 'mammoth' package. "
+                "Double-click 'Run ETO Newsletter.bat' once to install it "
+                "(or run: pip install mammoth)."
+            )
+        with path.open("rb") as f:
+            result = mammoth.convert_to_html(f)
+        warnings = [str(m.message) for m in result.messages]
+        body_html = result.value
+        if 'src="data:' in body_html:
+            warnings.append(
+                "The document contains embedded images. Many email apps "
+                "(Gmail, Outlook) hide embedded images - check the test "
+                "email carefully, or host the images on the website and "
+                "insert them as links instead."
+            )
+        return body_html, warnings
+
+    raise ValueError(
+        f"Unsupported newsletter file type '{path.suffix}'. "
+        "Use a .md or .docx file."
+    )
+
+
+def build_email_html(
+    body_html: str,
     *,
     title: str,
     pdf_url: str | None = None,
     footer_html: str | None = None,
     social_links: dict[str, str] | None = None,
 ) -> str:
-    """Render Markdown into a self-contained responsive HTML email.
-
-    A fixed template wraps the content: a header band with *title*, the body,
-    an optional PDF download button, a navy banner with the social links and
-    an Unsubscribe button, and a footer. MailerLite replaces the
-    ``{$unsubscribe}`` placeholder with the recipient's personal opt-out link,
-    so recipients always have a working unsubscribe.
+    """Wrap ready-made body HTML in the self-contained responsive email
+    template: a header band with *title*, the body, an optional PDF download
+    button, a navy banner with the social links and an Unsubscribe button,
+    and a footer. MailerLite replaces the ``{$unsubscribe}`` placeholder with
+    the recipient's personal opt-out link, so recipients always have a
+    working unsubscribe.
     """
-    body_html = md_lib.markdown(
-        markdown_text,
-        extensions=["extra", "sane_lists", "nl2br", "tables"],
-    )
-
     pdf_block = ""
     if pdf_url:
         pdf_block = (
@@ -227,3 +269,24 @@ def markdown_to_email_html(
 </div>
 </body>
 </html>"""
+
+
+def markdown_to_email_html(
+    markdown_text: str,
+    *,
+    title: str,
+    pdf_url: str | None = None,
+    footer_html: str | None = None,
+    social_links: dict[str, str] | None = None,
+) -> str:
+    """Convenience wrapper: Markdown text -> full email HTML."""
+    body_html = md_lib.markdown(
+        markdown_text, extensions=["extra", "sane_lists", "nl2br", "tables"]
+    )
+    return build_email_html(
+        body_html,
+        title=title,
+        pdf_url=pdf_url,
+        footer_html=footer_html,
+        social_links=social_links,
+    )

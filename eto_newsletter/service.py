@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Callable
 
-from .content import markdown_to_email_html
+from .content import build_email_html
 from .mailerlite_client import MailerLiteClient, MailerLiteError, Subscriber
 
 # Default name of the user-facing subscriber group. The actual name is
@@ -35,7 +35,7 @@ class CampaignDraft:
     subject: str
     from_name: str
     from_email: str
-    markdown: str
+    body_html: str  # rendered newsletter body (from .md or .docx)
     pdf_url: str | None
     social_links: dict[str, str] | None = None
 
@@ -371,8 +371,8 @@ class NewsletterService:
     # ---- building the campaign ----------------------------------------------
 
     def _render(self, draft: CampaignDraft) -> str:
-        return markdown_to_email_html(
-            draft.markdown,
+        return build_email_html(
+            draft.body_html,
             title=draft.subject,
             pdf_url=draft.pdf_url,
             social_links=draft.social_links,

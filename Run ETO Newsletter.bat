@@ -21,7 +21,7 @@ if not defined PY (
 )
 
 REM 2) Install packages only if they are actually missing
-%PY% -c "import PySide6, requests, markdown" >nul 2>nul
+%PY% -c "import PySide6, requests, markdown, mammoth" >nul 2>nul
 if errorlevel 1 (
     echo Installing required packages, please wait...
     %PY% -m pip install -r requirements.txt
